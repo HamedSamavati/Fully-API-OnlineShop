@@ -1,10 +1,13 @@
-import { getData } from "./utils/validation.js";
-const baseUrl = "https://fakestoreapi.com/";
+import { getData } from "./utils/httpRequest.js";
+import { getCookie } from "./utils/cookie.js";
+import { logoutHandler } from "./dashboard.js";
+
 const allProductsEndpoint = "products";
 const cardsContainer = document.querySelector(".cards");
 const categoryBtns = document.querySelectorAll(".category");
 const searchInput = document.querySelector("input");
-const loader = document.getElementById("loader");
+// const loader = document.getElementById("loader");
+const loginDashboardBtn = document.querySelector(".login-dashboard");
 
 function saveToLocalstorage(key, value) {
   try {
@@ -79,7 +82,8 @@ const loadItemsInCategory = async (category) => {
     return;
   }
   let categoryEndpoint = "products/category/" + category;
-  const data = await getData(baseUrl, categoryEndpoint);
+  const data = await getData(categoryEndpoint);
+  console.log(data);
   saveToLocalstorage("data", data);
   creatCards(data);
 };
@@ -103,7 +107,6 @@ const toggleActiveCategoryBtns = (target) => {
 };
 
 const searchHandler = (e) => {
-  console.log(e.target.value);
   let searchedItems = [];
   let data = retrieveFromLocalStorage("data");
   for (let i in data) {
@@ -115,11 +118,23 @@ const searchHandler = (e) => {
 };
 
 const renderPage = async function () {
+  if (getCookie("token")) {
+    loginDashboardBtn.href = "./dashboard.html";
+    loginDashboardBtn.innerHTML = `<i class="fa-solid fa-gears"></i>  Dashboard`;
+    if (loginDashboardBtn.parentNode) {
+      loginDashboardBtn.parentNode.innerHTML += `
+      <div class="button-border logout">
+             <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </div>
+      `;
+    }
+    const logoutBtn = document.querySelector(".logout");
+    logoutBtn.addEventListener("click", logoutHandler);
+  }
   cardsContainer.innerHTML = `<div id="loader"></div>`;
-  const data = await getData(baseUrl, allProductsEndpoint);
+  const data = await getData(allProductsEndpoint);
   saveToLocalstorage("data", data);
   creatCards(data);
-  console.log(data);
   addListenerToItems(categoryBtns, categoryHandler);
   searchInput.addEventListener("keyup", searchHandler);
 };

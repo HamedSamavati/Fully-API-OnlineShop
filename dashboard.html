@@ -17,16 +17,16 @@
       </h1>
       <div class="buttons">
         <a class="button-border" href="index.html">
-          Home <i class="fa-solid fa-house"></i>
+          <i class="fa-solid fa-house"></i> Home
         </a>
-        <a class="button-border" href="./auth.html">
-          Logout <i class="fa-solid fa-right-from-bracket"></i>
-        </a>
+        <div class="button-border logout" id="logout-button">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </div>
       </div>
     </header>
     <main class="dashboard__main">
       <h1>Users List:</h1>
-      <ul>
+      <ul class="users-list">
         <li>
           <div class="userId">1</div>
           <div class="name item">
@@ -53,6 +53,6 @@
       </ul>
     </main>
 
-    <script type="module" src=".assets/scripis/dashboard.js"></script>
+    <script type="module" src="./assets/scripts/dashboard.js"></script>
   </body>
 </html>
