@@ -3,9 +3,6 @@ const setCookie = (key, data) => {
   return;
 };
 
-// const getCookie = () => {
-// return document.cookie.split("=")[1];
-// };
 const getCookie = (name) => {
   const cookies = document.cookie.split(";");
   for (let cookie of cookies) {

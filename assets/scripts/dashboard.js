@@ -20,11 +20,39 @@ const getUsers = async () => {
   return users;
 };
 
-const createUser = (user) => {
+const renderUserCart = async (id) => {
+  const endpoint = `carts/user/${id}`;
+  const cartData = await getData(endpoint);
+  const cartId = cartData[0].id;
+  let cartDate = new Date(cartData[0].date).toLocaleDateString();
+  let JSx = `
+        <li>
+          <div class="userid">${cartId}</div>
+          <div class="date item">${cartDate}</div>
+  `;
+  const products = cartData[0].products;
+  for (let product of products) {
+    const quantity = product.quantity;
+    const productData = await getData(`products/${product.productId}`);
+    const productName = productData.title;
+    const productPrice = productData.price;
+    JSx += `
+            <div class="name item">
+              <div>${productName}</div>
+              <div>Price: $${productPrice}</div>
+              <div>Qty: ${quantity}</div>
+            </div>
+      `;
+  }
+  JSx += `</li>`;
+  return JSx;
+};
+
+const createUser = async (user) => {
   const { id, name, address, phone, username, email } = user;
   const JSx = `
-    <li>
-          <div class="userId">${id}</div>
+      <li>
+          <div class="userid">${id}</div>
           <div class="name item">
             <div><i class="fa-solid fa-user"></i> Name:</div>
             <div>${name.firstname} ${name.lastname}</div>
@@ -45,19 +73,20 @@ const createUser = (user) => {
             <div><i class="fa-solid fa-map-location-dot"></i> Address:</div>
             <div> ${address.number} ${address.street}, ${address.city}</div>
           </div>
-    </li>
-  `;
+      </li>`;
+  const userCart = document.querySelector(".user-cart");
+  const cartJSx = await renderUserCart(id);
+  userCart.innerHTML += cartJSx;
   return JSx;
 };
 
 const renderUsers = async function () {
   usersList.innerHTML = "";
   const users = await getUsers();
-  console.log(users);
   let userJSx = "";
   let username = getCookie("username");
   for (let user of users) {
-    if (user.username === username) userJSx = createUser(user);
+    if (user.username === username) userJSx = await createUser(user);
   }
   usersList.innerHTML += userJSx;
 };

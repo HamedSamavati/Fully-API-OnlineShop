@@ -169,7 +169,7 @@ main {
   background-color: rgba(36, 101, 247, 0.9);
   color: #fff;
   border-radius: 1.5em;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -243,17 +243,19 @@ aside ul li button:hover {
 .dashboard__header {
   display: flex;
   justify-content: space-between;
-}
-.dashboard__header div div {
-  margin-left: 1em;
-  border-color: #f75e4b;
-  color: #f75e4b;
+  margin-top: 4em;
 }
 
 .dashboard__main {
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+.dashboard__main h2 {
+  margin-top: 20px;
+}
+.dashboard__main h1 {
+  font-size: 1.6em;
 }
 .dashboard__main ul {
   width: 100%;
@@ -270,7 +272,7 @@ aside ul li button:hover {
   align-items: center;
   margin: 0.5em 0 0 0;
 }
-.dashboard__main ul li .userId {
+.dashboard__main ul li .userid {
   margin-left: 1em;
   width: 2em;
   height: 2em;
